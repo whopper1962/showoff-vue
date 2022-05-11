@@ -1,21 +1,25 @@
 <template>
 <div>
   <h1>Welcome to showoff.vue!</h1>
-  <button class="btn btn-primary" @click="getUser()">GET USER</button>
-  <h3>USER_NAME:{{ name }}</h3>
+  <button class="btn btn-primary" @click="getComponents()">GET COMPONENTS</button>
+  <template v-for="(component, index) in components">
+    <p :key="`component_title_${index}`">{{ component.title }}</p>
+    <p :key="`component_created_by${index}`">{{ component.user_id }}</p>
+    <p :key="`component_code${index}`">{{ component.code }}</p>
+  </template>
 </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      name: ''
+      components: []
     };
   },
   methods: {
-    getUser () {
-      axios.get('/api/test').then((res) => {
-        this.name = res?.data?.name;
+    getComponents () {
+      axios.get('/api/components').then((res) => {
+        this.components = res?.data;
       }).catch((err) => {
         console.error(err);
       })
